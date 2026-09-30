@@ -1,0 +1,56 @@
+@model ProjectDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h1 class="h3 mb-1">@Model.Title</h1>
+        @if (Model.IsActive)
+        {
+            <span class="badge bg-success">فعال</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">غیرفعال</span>
+        }
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> افزودن وظیفه
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-pencil"></i> ویرایش</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><i class="bi bi-trash"></i> حذف</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white"><h2 class="h6 mb-0">اطلاعات پروژه</h2></div>
+            <div class="card-body">
+                <dl class="row mb-0 small">
+                    <dt class="col-4 text-muted">توضیحات</dt>
+                    <dd class="col-8">@(string.IsNullOrWhiteSpace(Model.Description) ? "—" : Model.Description)</dd>
+                    <dt class="col-4 text-muted">تاریخ ایجاد</dt>
+                    <dd class="col-8">@Model.CreatedAt.ToString("yyyy/MM/dd")</dd>
+                    <dt class="col-4 text-muted">کل وظایف</dt>
+                    <dd class="col-8">@(Model.TodoCount + Model.InProgressCount + Model.DoneCount)</dd>
+                </dl>
+                <hr />
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis">در انتظار: @Model.TodoCount</span>
+                    <span class="badge bg-info-subtle text-info-emphasis">در حال انجام: @Model.InProgressCount</span>
+                    <span class="badge bg-success-subtle text-success-emphasis">انجام‌شده: @Model.DoneCount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white"><h2 class="h6 mb-0">وظایف این پروژه</h2></div>
+            <partial name="_TaskTable" model='new TaskTableViewModel { Items = Model.Tasks, ShowProject = false, EmptyMessage = "برای این پروژه هنوز وظیفه‌ای ثبت نشده است." }' />
+        </div>
+    </div>
+</div>

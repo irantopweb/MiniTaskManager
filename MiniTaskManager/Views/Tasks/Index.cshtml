@@ -1,0 +1,23 @@
+@model TaskListViewModel
+@{
+    ViewData["Title"] = "وظایف";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <h1 class="h3 mb-0">وظایف</h1>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> وظیفه جدید</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white"><i class="bi bi-funnel"></i> جستجو و فیلتر</div>
+    <div class="card-body">
+        <partial name="_TaskFilter" model="Model.Filter" />
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h2 class="h6 mb-0">نتایج (@Model.Items.Count وظیفه)</h2>
+    </div>
+    <partial name="_TaskTable" model='new TaskTableViewModel { Items = Model.Items, Filter = Model.Filter, EmptyMessage = "وظیفه‌ای مطابق فیلترهای انتخابی یافت نشد." }' />
+</div>

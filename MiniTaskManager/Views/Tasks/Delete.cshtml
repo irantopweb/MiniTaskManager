@@ -1,0 +1,32 @@
+@model TaskListItemViewModel
+@{
+    ViewData["Title"] = "حذف وظیفه";
+}
+
+<h1 class="h3 mb-4 text-danger">حذف وظیفه</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="alert alert-warning mb-3">
+            <i class="bi bi-exclamation-triangle"></i>
+            آیا از حذف وظیفه «<strong>@Model.Title</strong>» مطمئن هستید؟ این عملیات قابل بازگشت نیست.
+        </div>
+        <dl class="row small mb-4">
+            <dt class="col-sm-3 text-muted">پروژه</dt>
+            <dd class="col-sm-9">@Model.ProjectTitle</dd>
+            <dt class="col-sm-3 text-muted">وضعیت</dt>
+            <dd class="col-sm-9"><span class="badge rounded-pill @Model.Status.GetBadgeClass()">@Model.Status.GetDisplayName()</span></dd>
+            <dt class="col-sm-3 text-muted">اولویت</dt>
+            <dd class="col-sm-9"><span class="badge rounded-pill @Model.Priority.GetBadgeClass()">@Model.Priority.GetDisplayName()</span></dd>
+            <dt class="col-sm-3 text-muted">تاریخ سررسید</dt>
+            <dd class="col-sm-9">@(Model.DueDate?.ToString("yyyy/MM/dd") ?? "—")</dd>
+        </dl>
+        <form asp-action="Delete" method="post" onsubmit="return confirm('پس از حذف امکان بازگردانی وجود ندارد. مطمئن هستید؟');">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> حذف قطعی</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>

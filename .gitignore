@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+out/
+*.user
+*.suo
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+
+# Database (SQLite)
+App_Data/
+*.db
+*.db-shm
+*.db-wal
+
+# OS
+Thumbs.db
+.DS_Store

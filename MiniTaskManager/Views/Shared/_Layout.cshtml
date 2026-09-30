@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] is string pageTitle && pageTitle.Length > 0 ? $"{pageTitle} | مینی مدیریت وظایف" : "مینی مدیریت وظایف")</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-kanban"></i> مینی مدیریت وظایف
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="باز و بسته کردن منو">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-md-auto gap-md-2">
+                        <li class="nav-item">
+                            <a class="nav-link @ActiveClass("Home")" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-speedometer2"></i> داشبورد
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @ActiveClass("Projects")" asp-controller="Projects" asp-action="Index">
+                                <i class="bi bi-folder2"></i> پروژه‌ها
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @ActiveClass("Tasks")" asp-controller="Tasks" asp-action="Index">
+                                <i class="bi bi-check2-square"></i> وظایف
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        @if (TempData["SuccessMessage"] is string successMessage)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle"></i> @successMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="بستن"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] is string errorMessage)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i> @errorMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="بستن"></button>
+            </div>
+        }
+
+        <main class="pb-4">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top text-muted py-3">
+        <div class="container d-flex flex-wrap justify-content-between gap-2 small">
+            <span>مینی مدیریت وظایف — نمونه پروژه ASP.NET Core 10 MVC</span>
+            <span>ساخته‌شده با EF Core و SQLite</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+@functions {
+    private string? ActiveClass(string controller) =>
+        string.Equals(ViewContext.RouteData.Values["controller"]?.ToString(), controller, StringComparison.OrdinalIgnoreCase)
+            ? "active"
+            : null;
+}

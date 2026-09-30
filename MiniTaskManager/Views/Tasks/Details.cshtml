@@ -1,0 +1,62 @@
+@model TaskListItemViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h1 class="h3 mb-1">@Model.Title</h1>
+        <span class="badge rounded-pill @Model.Status.GetBadgeClass()">@Model.Status.GetDisplayName()</span>
+        <span class="badge rounded-pill @Model.Priority.GetBadgeClass()">@Model.Priority.GetDisplayName()</span>
+        @if (Model.IsOverdue)
+        {
+            <span class="badge bg-danger">عقب‌افتاده</span>
+        }
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-pencil"></i> ویرایش</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><i class="bi bi-trash"></i> حذف</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">بازگشت به لیست</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3 text-muted">@Html.DisplayNameFor(model => model.ProjectTitle)</dt>
+            <dd class="col-sm-9">
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId" class="text-decoration-none">@Model.ProjectTitle</a>
+            </dd>
+
+            <dt class="col-sm-3 text-muted">@Html.DisplayNameFor(model => model.Priority)</dt>
+            <dd class="col-sm-9"><span class="badge rounded-pill @Model.Priority.GetBadgeClass()">@Model.Priority.GetDisplayName()</span></dd>
+
+            <dt class="col-sm-3 text-muted">@Html.DisplayNameFor(model => model.Status)</dt>
+            <dd class="col-sm-9"><span class="badge rounded-pill @Model.Status.GetBadgeClass()">@Model.Status.GetDisplayName()</span></dd>
+
+            <dt class="col-sm-3 text-muted">@Html.DisplayNameFor(model => model.DueDate)</dt>
+            <dd class="col-sm-9">
+                @if (Model.DueDate is { } dueDate)
+                {
+                    <span class="@(Model.IsOverdue ? "text-danger fw-semibold" : "")">@dueDate.ToString("yyyy/MM/dd")</span>
+                    if (Model.IsOverdue)
+                    {
+                        <span class="badge bg-danger ms-1">عقب‌افتاده</span>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">—</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3 text-muted">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+            <dd class="col-sm-9">@Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</dd>
+
+            <dt class="col-sm-3 text-muted">@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd class="col-sm-9" style="white-space: pre-line;">
+                @(string.IsNullOrWhiteSpace(Model.Description) ? "—" : Model.Description)
+            </dd>
+        </dl>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+:root {
+    --bs-body-bg: #f4f6fa;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, "Vazirmatn", Arial, sans-serif;
+}
+
+.stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: .75rem;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+
+.stat-card {
+    transition: transform .15s ease-in-out;
+}
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+    }
+
+.table th {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.navbar .nav-link.active {
+    font-weight: 600;
+}

@@ -1,0 +1,22 @@
+@model ProjectFormViewModel
+@{
+    ViewData["Title"] = "ایجاد پروژه";
+}
+
+<h1 class="h3 mb-4">ایجاد پروژه جدید</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <partial name="_ProjectForm" model="Model" />
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> ذخیره پروژه</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

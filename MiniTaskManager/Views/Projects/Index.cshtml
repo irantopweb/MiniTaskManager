@@ -1,0 +1,85 @@
+@model IReadOnlyList<ProjectListItemViewModel>
+@{
+    ViewData["Title"] = "پروژه‌ها";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <h1 class="h3 mb-0">پروژه‌ها</h1>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> پروژه جدید</a>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="card shadow-sm">
+        <div class="card-body text-center py-5">
+            <div class="display-6 mb-3"><i class="bi bi-folder2-open text-muted"></i></div>
+            <p class="text-muted mb-3">هنوز پروژه‌ای ثبت نشده است. اولین پروژه خود را ایجاد کنید.</p>
+            <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> ایجاد پروژه</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>عنوان</th>
+                        <th>توضیحات</th>
+                        <th>وظایف</th>
+                        <th>وضعیت</th>
+                        <th>تاریخ ایجاد</th>
+                        <th class="text-end">عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">
+                                <a asp-action="Details" asp-route-id="@project.Id" class="text-decoration-none">@project.Title</a>
+                            </td>
+                            <td class="text-muted">
+                                @if (string.IsNullOrWhiteSpace(project.Description))
+                                {
+                                    <span>—</span>
+                                }
+                                else
+                                {
+                                    <span class="d-inline-block text-truncate align-middle" style="max-width: 260px;" title="@project.Description">@project.Description</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge bg-primary-subtle text-primary-emphasis">@project.TaskCount وظیفه</span>
+                                @if (project.TaskCount > 0)
+                                {
+                                    <div class="small text-muted">@project.DoneTaskCount انجام‌شده</div>
+                                }
+                            </td>
+                            <td>
+                                @if (project.IsActive)
+                                {
+                                    <span class="badge bg-success">فعال</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">غیرفعال</span>
+                                }
+                            </td>
+                            <td class="text-muted">@project.CreatedAt.ToString("yyyy/MM/dd")</td>
+                            <td class="text-end">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@project.Id" class="btn btn-outline-success" title="افزودن وظیفه"><i class="bi bi-plus-square"></i></a>
+                                    <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-outline-secondary" title="جزئیات"><i class="bi bi-eye"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@project.Id" class="btn btn-outline-warning" title="ویرایش"><i class="bi bi-pencil"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@project.Id" class="btn btn-outline-danger" title="حذف"><i class="bi bi-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

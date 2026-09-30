@@ -1,0 +1,44 @@
+@model TaskFilterViewModel
+<form method="get" asp-controller="Tasks" asp-action="Index" class="row g-3 align-items-end">
+    <div class="col-12 col-lg-3">
+        <label asp-for="Search" class="form-label"></label>
+        <input asp-for="Search" class="form-control" placeholder="جستجو در عنوان وظیفه..." />
+    </div>
+    <div class="col-6 col-lg-3">
+        <label asp-for="ProjectId" class="form-label"></label>
+        <select asp-for="ProjectId" asp-items="Model.Projects" class="form-select">
+            <option value="">همه پروژه‌ها</option>
+        </select>
+    </div>
+    <div class="col-6 col-lg-2">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<TaskItemStatus>()" class="form-select">
+            <option value="">همه</option>
+        </select>
+    </div>
+    <div class="col-6 col-lg-2">
+        <label asp-for="Priority" class="form-label"></label>
+        <select asp-for="Priority" asp-items="Html.GetEnumSelectList<TaskPriority>()" class="form-select">
+            <option value="">همه</option>
+        </select>
+    </div>
+    <div class="col-6 col-lg-1">
+        <label asp-for="SortBy" class="form-label"></label>
+        <select asp-for="SortBy" class="form-select">
+            <option value="createdAt">ایجاد</option>
+            <option value="dueDate">سررسید</option>
+            <option value="priority">اولویت</option>
+        </select>
+    </div>
+    <div class="col-6 col-lg-1">
+        <label asp-for="SortDescending" class="form-label"></label>
+        <select asp-for="SortDescending" class="form-select">
+            <option value="true">نزولی</option>
+            <option value="false">صعودی</option>
+        </select>
+    </div>
+    <div class="col-12 d-flex gap-2">
+        <button type="submit" class="btn btn-primary"><i class="bi bi-funnel"></i> اعمال فیلتر</button>
+        <a asp-controller="Tasks" asp-action="Index" class="btn btn-outline-secondary">حذف فیلترها</a>
+    </div>
+</form>
